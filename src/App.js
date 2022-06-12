@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import './Components/Grid';
+import Grid from './Components/Grid';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const numRows = 30;
+const numCols = 30;
+
+class App extends Component {
+
+  createGrid = () => {
+    return Array(numRows).fill(0).map(x => Array(numCols).fill(0))
+  }
+
+  state = {
+    generation: 0,
+    grid: this.createGrid()
+  };
+
+  render() {
+    return (
+      <div style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
+        <h1>The Game of Life by John H. Conway</h1>
+        <Grid grid={this.state.grid} />
+      </div>
+    )
+  }
 }
 
 export default App;
