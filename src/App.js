@@ -5,17 +5,22 @@ import Grid from './Components/Grid';
 
 const numRows = 30;
 const numCols = 30;
+const pRandomLive = 0.5;
 
 class App extends Component {
 
-  createGrid = () => {
+  createGridZeros = () => {
     return Array(numRows).fill(0).map(x => Array(numCols).fill(0))
+  }
+
+  createGridRandom = () => {
+    return Array(numRows).fill(0).map(x => Array(numCols).fill(0).map(x => (Math.random() <= pRandomLive) ? 1 : 0))
   }
 
   state = {
     generation: 0,
-    grid: this.createGrid()
-  };
+    grid: this.createGridZeros()
+  }
 
   render() {
     return (
@@ -27,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
