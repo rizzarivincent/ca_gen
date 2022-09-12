@@ -3,9 +3,12 @@ import './App.css';
 import './Components/Grid';
 import Grid from './Components/Grid';
 
-const numRows = 30;
-const numCols = 30;
+const numRows = 25;
+const numCols = 60;
 const pRandomLive = 0.5;
+
+const gameOfLifeBirths =   [false, false, false, true,  false, false, false, false, false]
+const gameOfLifeSurvives = [false, false, true,  true,  false, false, false, false, false]
 
 class App extends Component {
 
@@ -17,16 +20,64 @@ class App extends Component {
     return Array(numRows).fill(0).map(x => Array(numCols).fill(0).map(x => (Math.random() <= pRandomLive) ? 1 : 0))
   }
 
+  handleClick = (i, j) => {
+    let newGrid = JSON.parse(JSON.stringify(this.state.grid))
+    newGrid[i][j] = this.state.grid[i][j] ? 0 : 1
+    this.setState({grid: newGrid})
+  }
+
+  neighbors = (x, y, grid) => {
+    let count = 0
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        count += grid[(x + i) % numRows][(y + j) % numCols]
+      }
+    }
+    count -= grid[x][y]
+    return count
+  }
+
+  birthCheck = (n) => {
+    return this.state.birthArray[n] ? 1 : 0
+  }
+
+  surviveCheck = (n) => {
+    return this.state.surviveArray[n] ? 1 : 0
+  }
+
+  simulate = (grid) => {
+    let newGrid = Array(numRows).fill(0).map(x => Array(numCols).fill(0))
+    let neighbors = 0
+    for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < numCols; j++) {
+        neighbors = this.neighbors(i, j, grid)
+        if (grid[i][j] === 0) {
+          newGrid[i][j] = this.birthCheck(neighbors)
+        } else {
+          newGrid[i][j] = this.surviveCheck(neighbors)
+        }
+      }
+    }
+    return newGrid
+  }
+
   state = {
-    generation: 0,
-    grid: this.createGridZeros()
+    running:      false,
+    generation:   0,
+    grid:         this.createGridRandom(),
+    birthArray:   JSON.parse(JSON.stringify(this.gameOfLifeBirths)),
+    surviveArray: JSON.parse(JSON.stringify(this.gameOfLifeSurvives))
   }
 
   render() {
     return (
-      <div style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
+      <div style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
         <h1>The Game of Life by John H. Conway</h1>
-        <Grid grid={this.state.grid} />
+        <p>BUTTONS HERE</p>
+        {/* <button onClick={
+          this.setState(prevState => ({ running: !prevState.running }))
+        }>{this.state.running ? "Pause" : "Play"}</button> */}
+        <Grid grid={this.state.grid} clickHandler={this.handleClick} />
       </div>
     )
   }
