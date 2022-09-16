@@ -65,8 +65,8 @@ class App extends Component {
     running:      false,
     generation:   0,
     grid:         this.createGridRandom(),
-    birthArray:   JSON.parse(JSON.stringify(this.gameOfLifeBirths)),
-    surviveArray: JSON.parse(JSON.stringify(this.gameOfLifeSurvives))
+    birthArray:   [...gameOfLifeBirths],
+    surviveArray: [...gameOfLifeSurvives]
   }
 
   render() {
