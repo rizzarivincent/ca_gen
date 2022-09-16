@@ -16,6 +16,14 @@ class App extends Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handlePauseButton = this.handlePauseButton.bind(this)
+
+    this.state = {
+      running:      false,
+      generation:   0,
+      grid:         this.createGridRandom(),
+      birthArray:   [...gameOfLifeBirths],
+      surviveArray: [...gameOfLifeSurvives]
+    }
   }
 
   createGridZeros = () => {
@@ -28,8 +36,10 @@ class App extends Component {
 
   handleClick = (i, j) => {
     let newGrid = JSON.parse(JSON.stringify(this.state.grid))
+    console.log("Before update: grid[" + i + "][" + j + "] = " + this.state.grid[i][j])
     newGrid[i][j] = this.state.grid[i][j] ? 0 : 1
-    console.log("Updating the grid!")
+    console.log("During update: newGrid[" + i + "][" + j + "] = " + newGrid[i][j])
+    console.log("Is grid === newGrid? " + (this.state.grid === newGrid))
     this.setState({grid: newGrid})
   }
 
@@ -73,21 +83,15 @@ class App extends Component {
     return newGrid
   }
 
-  state = {
-    running:      false,
-    generation:   0,
-    grid:         this.createGridRandom(),
-    birthArray:   [...gameOfLifeBirths],
-    surviveArray: [...gameOfLifeSurvives]
-  }
-
   render() {
+    // console.log("RERENDERING APP")
+    // console.log(this.state.grid[0][0])
     return (
       <div style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
         <h1>The Game of Life by John H. Conway</h1>
         <p>BUTTONS HERE</p>
         <button onClick={this.handlePauseButton}>{this.state.running ? "Pause" : "Play"}</button>
-        <Grid grid={this.state.grid} clickHandler={this.handleClick} />
+        <Grid grid={this.state.grid} key={this.state.grid} clickHandler={this.handleClick} />
       </div>
     )
   }
