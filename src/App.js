@@ -12,6 +12,12 @@ const gameOfLifeSurvives = [false, false, true,  true,  false, false, false, fal
 
 class App extends Component {
 
+  constructor(props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+    this.handlePauseButton = this.handlePauseButton.bind(this)
+  }
+
   createGridZeros = () => {
     return Array(numRows).fill(0).map(x => Array(numCols).fill(0))
   }
@@ -23,7 +29,13 @@ class App extends Component {
   handleClick = (i, j) => {
     let newGrid = JSON.parse(JSON.stringify(this.state.grid))
     newGrid[i][j] = this.state.grid[i][j] ? 0 : 1
+    console.log("Updating the grid!")
     this.setState({grid: newGrid})
+  }
+
+  handlePauseButton = () => {
+    let running = this.state.running
+    this.setState({running: !running})
   }
 
   neighbors = (x, y, grid) => {
@@ -74,9 +86,7 @@ class App extends Component {
       <div style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
         <h1>The Game of Life by John H. Conway</h1>
         <p>BUTTONS HERE</p>
-        {/* <button onClick={
-          this.setState(prevState => ({ running: !prevState.running }))
-        }>{this.state.running ? "Pause" : "Play"}</button> */}
+        <button onClick={this.handlePauseButton}>{this.state.running ? "Pause" : "Play"}</button>
         <Grid grid={this.state.grid} clickHandler={this.handleClick} />
       </div>
     )
