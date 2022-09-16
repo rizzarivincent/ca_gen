@@ -10,8 +10,7 @@ class Cell extends Component {
     return <div style={{ width: 20, height: 20,
       backgroundColor: this.cellState ? 'pink' : undefined,
       border: "solid 1px black" }}
-      key={`${this.cellRow}-${this.cellCol}`}
-      onClick={this.props.clickHandler(this.cellRow, this.cellCol)}></div>
+      onClick={() => this.props.clickHandler(this.cellRow, this.cellCol)}></div>
   }
 }
 
