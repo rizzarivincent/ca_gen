@@ -6,6 +6,7 @@ import Grid from './Components/Grid';
 const numRows = 25;
 const numCols = 60;
 const pRandomLive = 0.5;
+const generationIntervalLength = 200;
 
 const gameOfLifeBirths =   [false, false, false, true,  false, false, false, false, false]
 const gameOfLifeSurvives = [false, false, true,  true,  false, false, false, false, false]
@@ -50,9 +51,13 @@ class App extends Component {
 
   neighbors = (x, y, grid) => {
     let count = 0
+    let n_x = 0
+    let n_y = 0
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
-        count += grid[(x + i) % numRows][(y + j) % numCols]
+        n_x = (((x + i) % numRows) + numRows) % numRows
+        n_y = (((y + j) % numCols) + numCols) % numCols
+        count += grid[n_x][n_y]
       }
     }
     count -= grid[x][y]
@@ -94,6 +99,21 @@ class App extends Component {
         <Grid grid={this.state.grid} key={this.state.grid} clickHandler={this.handleClick} />
       </div>
     )
+  }
+
+  componentDidMount() {
+    this.generationInterval = setInterval(() => {
+      console.log("Tick!")
+      if (this.state.running) {
+        this.setState(() => ({
+          grid: this.simulate(this.state.grid)
+        }))
+      }
+    }, generationIntervalLength)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.generationInterval)
   }
 }
 
