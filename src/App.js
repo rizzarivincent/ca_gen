@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import './Components/Grid';
 import Grid from './Components/Grid';
+import ButtonArray from './Components/ButtonArray';
 
 const numRows = 25;
 const numCols = 60;
@@ -17,6 +18,9 @@ class App extends Component {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handlePauseButton = this.handlePauseButton.bind(this)
+    this.handleRuleButton = this.handleRuleButton.bind(this)
+    this.handleResetRandomButton = this.handleResetRandomButton.bind(this)
+    this.handleResetZeroButton = this.handleResetZeroButton.bind(this)
 
     this.state = {
       running:      false,
@@ -49,7 +53,27 @@ class App extends Component {
     this.setState({running: !running})
   }
 
-  neighbors = (x, y, grid) => {
+  handleRuleButton = (i, mode) => {
+    if (mode === 'survive') {
+      let newSurviveArray = [...this.state.surviveArray]
+      newSurviveArray[i] = !newSurviveArray[i]
+      this.setState({surviveArray: newSurviveArray})
+    } else {
+      let newBirthArray = [...this.state.birthArray]
+      newBirthArray[i] = !newBirthArray[i]
+      this.setState({birthArray: newBirthArray})
+    }
+  }
+
+  handleResetRandomButton = () => {
+    this.setState({grid: this.createGridRandom()})
+  }
+
+  handleResetZeroButton = () => {
+    this.setState({grid: this.createGridZeros()})
+  }
+
+  moooreNeighbors = (x, y, grid) => {
     let count = 0
     let n_x = 0
     let n_y = 0
@@ -77,7 +101,7 @@ class App extends Component {
     let neighbors = 0
     for (let i = 0; i < numRows; i++) {
       for (let j = 0; j < numCols; j++) {
-        neighbors = this.neighbors(i, j, grid)
+        neighbors = this.moooreNeighbors(i, j, grid)
         if (grid[i][j] === 0) {
           newGrid[i][j] = this.birthCheck(neighbors)
         } else {
@@ -94,7 +118,10 @@ class App extends Component {
     return (
       <div style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
         <h1>The Game of Life by John H. Conway</h1>
-        <p>BUTTONS HERE</p>
+        <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='birth' currArray={this.state.birthArray} />
+        <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='survive' currArray={this.state.surviveArray} />
+        <button onClick={this.handleResetRandomButton}>Random Reset</button>
+        <button onClick={this.handleResetZeroButton}>Empty Reset</button>
         <button onClick={this.handlePauseButton}>{this.state.running ? "Pause" : "Play"}</button>
         <Grid grid={this.state.grid} key={this.state.grid} clickHandler={this.handleClick} />
       </div>
