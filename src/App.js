@@ -118,7 +118,7 @@ class App extends Component {
     // console.log(this.state.grid[0][0])
     return (
       <div style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
-        <h1>The Game of Life by John H. Conway</h1>
+        <h1>Cellular Automata Generator</h1>
         <div style={{ display: 'grid', gridTemplateColumns: '200px 200px', justifyContent: 'center' }}>
           <div style={{}}>
             <div>Birth:</div>
