@@ -15,9 +15,16 @@ class Cell extends Component {
     //   console.log(this.cellColor)
     // }
     return <div style={{ width: 20, height: 20,
-      backgroundColor: this.cellState ? 'pink' : undefined,
-      border: "solid 1px black" }}
-      onClick={() => this.props.clickHandler(this.cellRow, this.cellCol)}></div>
+      backgroundColor: this.cellState ? 'white' : 'gray',
+      border: "solid 1px black", borderRadius: "3px" }}
+      onClick={() => this.props.clickHandler(this.cellRow, this.cellCol)}
+      className={"Cell" + (this.cellState ? ' alive' : ' dead')}></div>
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.cellState === true && this.cellState === false) {
+
+    }
   }
 }
 

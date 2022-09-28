@@ -54,6 +54,7 @@ class App extends Component {
   }
 
   handleRuleButton = (i, mode) => {
+    console.log("Button clicked: " + i + " " + mode)
     if (mode === 'survive') {
       let newSurviveArray = [...this.state.surviveArray]
       newSurviveArray[i] = !newSurviveArray[i]
@@ -120,8 +121,10 @@ class App extends Component {
         <h1>The Game of Life by John H. Conway</h1>
         <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='birth' currArray={this.state.birthArray} />
         <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='survive' currArray={this.state.surviveArray} />
-        <button onClick={this.handleResetRandomButton}>Random Reset</button>
-        <button onClick={this.handleResetZeroButton}>Empty Reset</button>
+        <div>
+          <button onClick={this.handleResetRandomButton}>Random Reset</button>
+          <button onClick={this.handleResetZeroButton}>Empty Reset</button>
+        </div>
         <button onClick={this.handlePauseButton}>{this.state.running ? "Pause" : "Play"}</button>
         <Grid grid={this.state.grid} key={this.state.grid} clickHandler={this.handleClick} />
       </div>

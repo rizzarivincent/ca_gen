@@ -9,7 +9,8 @@ class ButtonArray extends Component {
       {this.text}
       {
       [...Array(this.props.numButtons)].map(
-        (_, i) => <button onClick={this.props.buttonHandler(i, this.props.mode)}
+        (_, i) => <button type="button"
+                          onClick={() => this.props.buttonHandler(i, this.props.mode)}
                           style={{backgroundColor: this.props.currArray[i] ? 'white' : 'grey'}}
                           key={i}>{i}</button>
       )
