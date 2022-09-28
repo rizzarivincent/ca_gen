@@ -2,11 +2,8 @@ import React, { Component } from "react";
 
 class ButtonArray extends Component {
 
-  text = (this.props.mode === 'birth') ? "Birth:" : "Survive:"
-
   render() {
     return (<div>
-      {this.text}
       {
       [...Array(this.props.numButtons)].map(
         (_, i) => <button type="button"

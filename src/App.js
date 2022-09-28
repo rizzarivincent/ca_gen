@@ -119,8 +119,16 @@ class App extends Component {
     return (
       <div style={{ justifyContent: 'center', alignContent: 'center', textAlign: 'center' }}>
         <h1>The Game of Life by John H. Conway</h1>
-        <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='birth' currArray={this.state.birthArray} />
-        <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='survive' currArray={this.state.surviveArray} />
+        <div style={{ display: 'grid', gridTemplateColumns: '200px 200px', justifyContent: 'center' }}>
+          <div style={{}}>
+            <div>Birth:</div>
+            <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='birth' currArray={this.state.birthArray} />
+          </div>
+          <div style={{}}>
+            <div>Survive:</div>
+            <ButtonArray numButtons={9} buttonHandler={this.handleRuleButton} mode='survive' currArray={this.state.surviveArray} />
+          </div>
+        </div>
         <div>
           <button onClick={this.handleResetRandomButton}>Random Reset</button>
           <button onClick={this.handleResetZeroButton}>Empty Reset</button>
